@@ -77,16 +77,48 @@ head(monthly)
 
 5. El efecto del lavado de manos
 
-5.1
+5.1 y 5.2
 
 ```{r}
 ggplot(monthly, aes(x=date, y=proportion_deaths)) +
-  geom_line()
+  geom_line() +
+  labs( x = "Date", y = "Proportion of deaths", title="Proportion of deaths vs. Dates")
 ```
 
 
+6.1 
+
+```{r}
+
+monthly <- monthly %>%
+  mutate(handwashing_started = if_else(as.Date("1846-12-31") < date, TRUE, FALSE ))
+monthly
+```
+
+6.2 y 6.3
+
+```{r}
+ggplot(monthly, aes(x=date, y=proportion_deaths, color=handwashing_started)) +
+  geom_line() +
+  labs( x = "Date", y = "Proportion of deaths", title="Proportion of deaths vs. Dates")
+```
+
+7.1 y 7.2
+
+```{r}
+
+month_summary <- monthly %>%
+  group_by(handwashing_started) %>%
+  summarize(mean_proportion_deaths = mean(proportion_deaths))
+month_summary
+```
 
 
+7.3
+
+```{r}
+month_summary
+```
 
 
 
